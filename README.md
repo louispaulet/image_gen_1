@@ -52,6 +52,11 @@ imagen_app/
 ├── README.md
 ````
 
+## 📂 Examples
+
+- [Hot Sauce Examples](hot_sauce_examples/README.md): Uses the default hot sauce preset to generate images of hot sauce bottles starting from a default packshot image.
+- [Object to 3D Examples](object_to_3d_examples/README.md): Uses the default object to 3D preset to convert objects into 3D renders.
+
 ## 📄 License
 
 MIT License
