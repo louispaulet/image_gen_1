@@ -13,6 +13,11 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
 
+  // New state for presets
+  const [presetName, setPresetName] = useState('');
+  const [availablePresets, setAvailablePresets] = useState([]);
+  const [loadingPresets, setLoadingPresets] = useState(false);
+
   React.useEffect(() => {
     if (apiKeySource === 'file') {
       fetch('/key.txt')
@@ -35,6 +40,93 @@ function HomePage() {
       file.type.startsWith('image/')
     );
     setFiles((prevFiles) => [...prevFiles, ...imageFiles]);
+  };
+
+  // Save preset as JSON file download
+  const savePreset = () => {
+    if (!presetName.trim()) {
+      alert('Please enter a preset name');
+      return;
+    }
+    const presetData = {
+      systemPrompt,
+      userPrompt,
+    };
+    const jsonStr = JSON.stringify(presetData, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = presetName.trim() + '.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  // Load preset from local file input
+  const loadPresetFromFile = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (data.systemPrompt !== undefined && data.userPrompt !== undefined) {
+          setSystemPrompt(data.systemPrompt);
+          setUserPrompt(data.userPrompt);
+        } else {
+          alert('Invalid preset file format');
+        }
+      } catch (err) {
+        alert('Error reading preset file: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+    // Reset input value to allow loading the same file again if needed
+    event.target.value = null;
+  };
+
+  // Fetch list of preset JSON files from /presets folder
+  React.useEffect(() => {
+    setLoadingPresets(true);
+    fetch('/presets/presets.json')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load presets list');
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setAvailablePresets(data);
+        } else {
+          setAvailablePresets([]);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setAvailablePresets([]);
+      })
+      .finally(() => setLoadingPresets(false));
+  }, []);
+
+  // Load preset from available presets list
+  const loadPresetFromList = (filename) => {
+    fetch('/presets/' + filename)
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load preset file');
+        return res.json();
+      })
+      .then((data) => {
+        if (data.systemPrompt !== undefined && data.userPrompt !== undefined) {
+          setSystemPrompt(data.systemPrompt);
+          setUserPrompt(data.userPrompt);
+        } else {
+          alert('Invalid preset file format');
+        }
+      })
+      .catch((err) => {
+        alert('Error loading preset: ' + err.message);
+      });
   };
 
   const removeFileAtIndex = (index) => {
@@ -195,24 +287,75 @@ function HomePage() {
           id="system-prompt"
           rows={3}
           value={systemPrompt}
-          onChange={(e) => setSystemPrompt(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2 resize-none"
-        />
-      </div>
+      onChange={(e) => setSystemPrompt(e.target.value)}
+      className="w-full border border-gray-300 rounded px-3 py-2 resize-none"
+    />
 
-      <div className="mt-4">
-        <label className="block font-semibold mb-1" htmlFor="user-prompt">
-          User Prompt
-        </label>
-        <input
-          id="user-prompt"
-          type="text"
-          placeholder="Describe your image request here..."
-          value={userPrompt}
-          onChange={(e) => setUserPrompt(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2"
-        />
-      </div>
+    {/* Preset controls */}
+    <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
+      <input
+        type="text"
+        placeholder="Preset name"
+        value={presetName}
+        onChange={(e) => setPresetName(e.target.value)}
+        className="border border-gray-300 rounded px-3 py-2 flex-grow"
+      />
+      <button
+        onClick={savePreset}
+        className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+        type="button"
+      >
+        Save Preset
+      </button>
+      <label
+        htmlFor="load-preset-file"
+        className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700"
+      >
+        Load Preset File
+      </label>
+      <input
+        id="load-preset-file"
+        type="file"
+        accept=".json"
+        onChange={loadPresetFromFile}
+        style={{ display: 'none' }}
+      />
+      {loadingPresets ? (
+        <div className="text-gray-500">Loading presets...</div>
+      ) : (
+        <select
+          onChange={(e) => {
+            if (e.target.value) loadPresetFromList(e.target.value);
+          }}
+          defaultValue=""
+          className="border border-gray-300 rounded px-3 py-2"
+        >
+          <option value="" disabled>
+            Load Preset from List
+          </option>
+          {availablePresets.map((presetFile) => (
+            <option key={presetFile} value={presetFile}>
+              {presetFile.replace('.json', '')}
+            </option>
+          ))}
+        </select>
+      )}
+    </div>
+  </div>
+
+  <div className="mt-4">
+    <label className="block font-semibold mb-1" htmlFor="user-prompt">
+      User Prompt
+    </label>
+    <input
+      id="user-prompt"
+      type="text"
+      placeholder="Describe your image request here..."
+      value={userPrompt}
+      onChange={(e) => setUserPrompt(e.target.value)}
+      className="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
 
       <div className="mt-6 text-center space-y-4">
         <button

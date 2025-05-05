@@ -1,0 +1,4 @@
+{
+  "systemPrompt": "Use these reference images to generate a 3D render of an object",
+  "userPrompt": "Here are pictures of a jaeger clock, please make it in 3d !"
+}
