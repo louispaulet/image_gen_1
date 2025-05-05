@@ -3,6 +3,7 @@ import OpenAI, { toFile } from 'openai';
 
 function HomePage() {
   const [apiKey, setApiKey] = useState('');
+  const [apiKeySource, setApiKeySource] = useState('file'); // 'file' or 'manual'
   const [files, setFiles] = useState([]);
   const [systemPrompt, setSystemPrompt] = useState(
     'Generate a portrait orientation image. Use the reference image as a packshot reference, and update it with the user request below.'
@@ -11,6 +12,23 @@ function HomePage() {
   const [resultImage, setResultImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+
+  React.useEffect(() => {
+    if (apiKeySource === 'file') {
+      fetch('/key.txt')
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load key.txt');
+          return res.text();
+        })
+        .then((text) => setApiKey(text.trim()))
+        .catch((err) => {
+          console.error(err);
+          setApiKey('');
+        });
+    } else {
+      setApiKey('');
+    }
+  }, [apiKeySource]);
 
   const handleFiles = (selectedFiles) => {
     const imageFiles = Array.from(selectedFiles).filter((file) =>
@@ -79,17 +97,51 @@ function HomePage() {
       <h1 className="text-4xl font-bold mb-6 text-center">Image Generation Homepage</h1>
 
       <div className="mb-4">
-        <label className="block font-semibold mb-1" htmlFor="api-key">
-          OpenAI API Key
-        </label>
-        <input
-          id="api-key"
-          type="password"
-          placeholder="sk-..."
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2"
-        />
+        <label className="block font-semibold mb-1">OpenAI API Key Source</label>
+        <div className="flex items-center space-x-4 mb-2">
+          <label className="inline-flex items-center">
+            <input
+              type="radio"
+              name="apiKeySource"
+              value="file"
+              checked={apiKeySource === 'file'}
+              onChange={() => setApiKeySource('file')}
+              className="form-radio"
+            />
+            <span className="ml-2">Load from text file</span>
+          </label>
+          <label className="inline-flex items-center">
+            <input
+              type="radio"
+              name="apiKeySource"
+              value="manual"
+              checked={apiKeySource === 'manual'}
+              onChange={() => setApiKeySource('manual')}
+              className="form-radio"
+            />
+            <span className="ml-2">Enter manually</span>
+          </label>
+          <CheckApiKeyButton apiKey={apiKey} setLoading={setLoading} loading={loading} />
+        </div>
+        {apiKeySource === 'manual' && (
+          <input
+            id="api-key"
+            type="password"
+            placeholder="sk-..."
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+          />
+        )}
+        {apiKeySource === 'file' && (
+          <input
+            id="api-key-file"
+            type="text"
+            value={apiKey}
+            readOnly
+            className="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100"
+          />
+        )}
       </div>
 
       <div
@@ -162,11 +214,11 @@ function HomePage() {
         />
       </div>
 
-      <div className="mt-6 text-center">
+      <div className="mt-6 text-center space-y-4">
         <button
           onClick={generateImage}
           disabled={loading}
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50 w-full"
         >
           {loading ? 'Generating...' : 'Generate Image'}
         </button>
@@ -186,6 +238,86 @@ function HomePage() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function CheckApiKeyButton({ apiKey, setLoading, loading }) {
+  const [status, setStatus] = React.useState(null); // 'success' | 'error' | null
+  const [message, setMessage] = React.useState('');
+  const [showPopin, setShowPopin] = React.useState(false);
+  const timeoutRef = React.useRef(null);
+
+  const checkApiKey = async () => {
+    if (!apiKey.trim()) {
+      setStatus('error');
+      setMessage('Please enter your OpenAI API key');
+      setShowPopin(true);
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setShowPopin(false), 3000);
+      return;
+    }
+    setLoading(true);
+    try {
+      const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4.1-nano',
+        messages: [
+          { role: 'system', content: 'You are a helpful assistant.' },
+          { role: 'user', content: 'Say hello to confirm the API key is valid.' }
+        ],
+      });
+      setStatus('success');
+      setMessage('API key is valid');
+      setShowPopin(true);
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setShowPopin(false), 3000);
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+      setMessage('API key validation failed: ' + error.message);
+      setShowPopin(true);
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setShowPopin(false), 3000);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="relative inline-flex items-center">
+      <button
+        onClick={checkApiKey}
+        disabled={loading}
+        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50 flex items-center"
+      >
+        {loading ? 'Checking...' : 'Check API Key'}
+      </button>
+      {status === 'success' && !loading && (
+        <span className="ml-2 text-green-500 text-xl" aria-label="Success">
+          ✓
+        </span>
+      )}
+      {status === 'error' && !loading && (
+        <span className="ml-2 text-red-500 text-xl" aria-label="Error">
+          ✗
+        </span>
+      )}
+      {showPopin && (
+        <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded opacity-90 animate-fadeOut">
+          {message}
+        </div>
+      )}
+      <style>{`
+        @keyframes fadeOut {
+          0% { opacity: 0.9; }
+          80% { opacity: 0.9; }
+          100% { opacity: 0; }
+        }
+        .animate-fadeOut {
+          animation: fadeOut 3s forwards;
+        }
+      `}</style>
     </div>
   );
 }
