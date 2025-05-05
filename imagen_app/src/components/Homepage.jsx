@@ -3,6 +3,7 @@ import OpenAI, { toFile } from 'openai';
 
 function HomePage() {
   const [apiKey, setApiKey] = useState('');
+  const [apiKeySource, setApiKeySource] = useState('file'); // 'file' or 'manual'
   const [files, setFiles] = useState([]);
   const [systemPrompt, setSystemPrompt] = useState(
     'Generate a portrait orientation image. Use the reference image as a packshot reference, and update it with the user request below.'
@@ -11,6 +12,23 @@ function HomePage() {
   const [resultImage, setResultImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+
+  React.useEffect(() => {
+    if (apiKeySource === 'file') {
+      fetch('/key.txt')
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load key.txt');
+          return res.text();
+        })
+        .then((text) => setApiKey(text.trim()))
+        .catch((err) => {
+          console.error(err);
+          setApiKey('');
+        });
+    } else {
+      setApiKey('');
+    }
+  }, [apiKeySource]);
 
   const handleFiles = (selectedFiles) => {
     const imageFiles = Array.from(selectedFiles).filter((file) =>
@@ -79,17 +97,50 @@ function HomePage() {
       <h1 className="text-4xl font-bold mb-6 text-center">Image Generation Homepage</h1>
 
       <div className="mb-4">
-        <label className="block font-semibold mb-1" htmlFor="api-key">
-          OpenAI API Key
-        </label>
-        <input
-          id="api-key"
-          type="password"
-          placeholder="sk-..."
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2"
-        />
+        <label className="block font-semibold mb-1">OpenAI API Key Source</label>
+        <div className="flex items-center space-x-4 mb-2">
+          <label className="inline-flex items-center">
+            <input
+              type="radio"
+              name="apiKeySource"
+              value="file"
+              checked={apiKeySource === 'file'}
+              onChange={() => setApiKeySource('file')}
+              className="form-radio"
+            />
+            <span className="ml-2">Load from text file</span>
+          </label>
+          <label className="inline-flex items-center">
+            <input
+              type="radio"
+              name="apiKeySource"
+              value="manual"
+              checked={apiKeySource === 'manual'}
+              onChange={() => setApiKeySource('manual')}
+              className="form-radio"
+            />
+            <span className="ml-2">Enter manually</span>
+          </label>
+        </div>
+        {apiKeySource === 'manual' && (
+          <input
+            id="api-key"
+            type="password"
+            placeholder="sk-..."
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+          />
+        )}
+        {apiKeySource === 'file' && (
+          <input
+            id="api-key-file"
+            type="text"
+            value={apiKey}
+            readOnly
+            className="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100"
+          />
+        )}
       </div>
 
       <div
