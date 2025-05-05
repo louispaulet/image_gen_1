@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>OpenAI Image Editor Prototype</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    #drop-zone { border: 2px dashed #ccc; padding: 1rem; text-align: center; cursor: pointer; }
+    #drop-zone.dragover { background: #eee; }
+    #thumbnails { display: flex; gap: 1rem; margin-top: 1rem; }
+    .thumb { position: relative; }
+    .thumb img { width: 100px; height: 100px; object-fit: cover; }
+    .thumb button { position: absolute; top: 0; right: 0; background: rgba(255,255,255,0.7); border: none; cursor: pointer; }
+    #result img { max-width: 100%; margin-top: 2rem; }
+    textarea, input { font-family: inherit; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Image Editor Prototype</h1>
+  <div>
+    <label>OpenAI API Token: <input id="token" type="password" placeholder="sk-..." style="width:400px;" /></label>
+  </div>
+  <div id="drop-zone">Drop reference images here or click to select.</div>
+  <input id="file-input" type="file" accept="image/*" multiple style="display:none"/>
+  <div id="thumbnails"></div>
+  <div style="margin-top:1rem;">
+    <label>System Prompt:<br/>
+      <textarea id="system-prompt" rows="2" style="width:100%;">Generate a portrait orientation image. Use the reference image as a packshot reference, and update it with the user request below.  </textarea>
+    </label>
+  </div>
+  <div style="margin-top:1rem;">
+    <label>User Prompt:<br/>
+      <input id="user-prompt" type="text" placeholder="Create a hot sauce advertisement. The hot sauce is made of bitcoins and pepper X. The packaging is mysterious and crypto punk, with an iridescent finish on the label due to the use of holographic paper." style="width:100%;"/>
+    </label>
+  </div>
+  <button id="generate" style="margin-top:1rem; padding:0.5rem 1rem; font-size:1rem;">Generate</button>
+  <div id="result"></div>
+
+  <script type="module">
+    import OpenAI, { toFile } from 'https://esm.sh/openai';
+
+    const tokenInput = document.getElementById('token');
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const thumbnails = document.getElementById('thumbnails');
+    const generateBtn = document.getElementById('generate');
+    const resultDiv = document.getElementById('result');
+    const systemPromptInput = document.getElementById('system-prompt');
+    const userPromptInput = document.getElementById('user-prompt');
+
+    let files = [];
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault(); dropZone.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener('change', e => {
+      handleFiles(e.target.files);
+      fileInput.value = null;
+    });
+
+    function handleFiles(selected) {
+      for (const file of selected) {
+        if (!file.type.startsWith('image/')) continue;
+        files.push(file);
+        const div = document.createElement('div');
+        div.className = 'thumb';
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        const btn = document.createElement('button');
+        btn.textContent = '×';
+        btn.onclick = () => {
+          const idx = Array.from(thumbnails.children).indexOf(div);
+          files.splice(idx, 1);
+          thumbnails.removeChild(div);
+        };
+        div.appendChild(img);
+        div.appendChild(btn);
+        thumbnails.appendChild(div);
+      }
+    }
+
+    generateBtn.addEventListener('click', async () => {
+      resultDiv.textContent = '';
+      const apiKey = tokenInput.value.trim();
+      if (!apiKey) return alert('Please enter your API token');
+      if (files.length === 0) return alert('Please add reference images');
+
+      const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true  });
+      try {
+        const fileRefs = await Promise.all(files.map(file => toFile(file, null, { type: file.type })));
+        const prompt = systemPromptInput.value + (userPromptInput.value ? ' ' + userPromptInput.value : '');
+        const rsp = await openai.images.edit({
+          model: 'gpt-image-1',
+          image: fileRefs,
+          prompt
+        });
+        const b64 = rsp.data[0].b64_json;
+        const img = document.createElement('img');
+        img.src = 'data:image/png;base64,' + b64;
+        resultDiv.appendChild(img);
+      } catch (err) {
+        console.error(err);
+        alert('Error: ' + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
