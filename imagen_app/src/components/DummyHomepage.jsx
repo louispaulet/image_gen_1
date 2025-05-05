@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import OpenAI, { toFile } from 'openai';
 
-function DummyHomepage() {
+function HomePage() {
   const [apiKey, setApiKey] = useState('');
   const [files, setFiles] = useState([]);
   const [systemPrompt, setSystemPrompt] = useState(
@@ -190,4 +190,4 @@ function DummyHomepage() {
   );
 }
 
-export default DummyHomepage;
+export default HomePage;
