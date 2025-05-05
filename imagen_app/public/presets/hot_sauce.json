@@ -1,0 +1,4 @@
+{
+  "systemPrompt": "Generate a portrait orientation image. Use the reference image as a packshot reference, and update it with the user request below. Make sure to update the bottle cap, the label, and the background accordingly.",
+  "userPrompt": "Make a habanero hot sauce with a shiny unicorn logo"
+}
