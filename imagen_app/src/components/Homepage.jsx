@@ -213,13 +213,43 @@ function HomePage() {
         />
       </div>
 
-      <div className="mt-6 text-center">
+      <div className="mt-6 text-center space-y-4">
         <button
           onClick={generateImage}
           disabled={loading}
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50 w-full"
         >
           {loading ? 'Generating...' : 'Generate Image'}
+        </button>
+        <button
+          onClick={async () => {
+            if (!apiKey.trim()) {
+              alert('Please enter your OpenAI API key');
+              return;
+            }
+            try {
+              setLoading(true);
+              const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
+              // Using the cheapest model "gpt-4o-mini" (assuming "gpt4.1 nano" is not an official name)
+              const response = await openai.chat.completions.create({
+                model: 'gpt-4.1-nano',
+                messages: [
+                  { role: 'system', content: 'You are a helpful assistant.' },
+                  { role: 'user', content: 'Say hello to confirm the API key is valid.' }
+                ],
+              });
+              alert('API key is valid. Response: ' + response.choices[0].message.content);
+            } catch (error) {
+              console.error(error);
+              alert('API key validation failed: ' + error.message);
+            } finally {
+              setLoading(false);
+            }
+          }}
+          disabled={loading}
+          className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 disabled:opacity-50 w-full"
+        >
+          {loading ? 'Checking...' : 'Check API Key'}
         </button>
       </div>
 
