@@ -4,6 +4,7 @@ import ApiKeyInput from './ApiKeyInput';
 import FileUploadArea from './FileUploadArea';
 import PresetControls from './PresetControls';
 import CheckApiKeyButton from './CheckApiKeyButton';
+import Suggestion from './Suggestion';
 
 function HomePage() {
   const [apiKey, setApiKey] = useState('');
@@ -216,6 +217,8 @@ function HomePage() {
         availablePresets={availablePresets}
         loadPresetFromList={loadPresetFromList}
       />
+
+      <Suggestion apiKey={apiKey} />
 
       <div className="mt-4">
         <label className="block font-semibold mb-1" htmlFor="user-prompt">
