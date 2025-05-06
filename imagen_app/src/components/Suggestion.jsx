@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import OpenAI from 'openai';
+import { HiOutlineClipboardCopy } from 'react-icons/hi';
 
 function Suggestion({ apiKey }) {
   const [theme, setTheme] = useState('');
@@ -81,7 +82,7 @@ function Suggestion({ apiKey }) {
           placeholder="Enter theme here"
           className="w-full border border-gray-300 rounded px-3 py-2 mb-3"
         />
-        <div className="flex space-x-2 mb-3">
+        <div className="flex space-x-4 mb-3 items-center">
           <button
             onClick={generatePrompt}
             disabled={loading}
@@ -92,7 +93,7 @@ function Suggestion({ apiKey }) {
           <button
             onClick={clearFields}
             disabled={loading}
-            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 disabled:opacity-50"
+            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 disabled:opacity-50 ml-6"
             title="Clear input and output"
           >
             Clear Section
@@ -100,13 +101,10 @@ function Suggestion({ apiKey }) {
           <button
             onClick={copyToClipboard}
             disabled={!generatedPrompt}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50 flex items-center space-x-1"
+            className="bg-green-600 text-white p-2 rounded hover:bg-green-700 disabled:opacity-50 flex items-center justify-center"
             title="Copy prompt to clipboard"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8 16h8M8 12h8m-6 8h6a2 2 0 002-2v-6a2 2 0 00-2-2h-6a2 2 0 00-2 2v6a2 2 0 002 2zM8 8V6a2 2 0 012-2h6a2 2 0 012 2v2" />
-            </svg>
-            <span>Copy</span>
+            <HiOutlineClipboardCopy className="h-6 w-6" />
           </button>
         </div>
         {generatedPrompt && (
