@@ -148,24 +148,38 @@ function HomePage() {
       return;
     }
     if (files.length === 0) {
-      alert('Please upload at least one reference image');
-      return;
+      const proceed = window.confirm('No image references, are you sure?');
+      if (!proceed) {
+        return;
+      }
     }
     setLoading(true);
     setResultImage(null);
     try {
       const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
-      const fileRefs = await Promise.all(
-        files.map((file) => toFile(file, null, { type: file.type }))
-      );
       const prompt = systemPrompt + (userPrompt ? ' ' + userPrompt : '');
-      const response = await openai.images.edit({
-        model: 'gpt-image-1',
-        image: fileRefs,
-        prompt,
-      });
-      const b64 = response.data[0].b64_json;
-      setResultImage('data:image/png;base64,' + b64);
+      if (files.length > 0) {
+        const fileRefs = await Promise.all(
+          files.map((file) => toFile(file, null, { type: file.type }))
+        );
+        const response = await openai.images.edit({
+          model: 'gpt-image-1',
+          image: fileRefs,
+          prompt,
+        });
+        const b64 = response.data[0].b64_json;
+        setResultImage('data:image/png;base64,' + b64);
+      } else {
+        // No reference images, generate image from prompt only
+        const response = await openai.images.generate({
+          model: 'gpt-image-1',
+          prompt,
+          size: '1024x1024',
+          n: 1,
+        });
+        const b64 = response.data[0].b64_json;
+        setResultImage('data:image/png;base64,' + b64);
+      }
     } catch (error) {
       console.error(error);
       alert('Error: ' + error.message);
