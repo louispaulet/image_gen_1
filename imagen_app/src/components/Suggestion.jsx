@@ -25,7 +25,7 @@ function Suggestion({ apiKey }) {
       };
       const userMessage = {
         role: 'user',
-        content: `Create a detailed and creative image generation prompt for an AI model based on the theme: "${theme}". The prompt should inspire vivid and imaginative images. You have to use 100 words max, in a singular prompt. Please only answer the prompt.`
+        content: `Create a detailed and creative image generation prompt for openai dall-e-3 model based on the theme: "${theme}". The prompt should inspire vivid and imaginative images. You have to use 100 words max, in a singular prompt. Please only answer the prompt.`
       };
       const response = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
@@ -45,7 +45,7 @@ function Suggestion({ apiKey }) {
 
   return (
     <div className="border border-gray-300 rounded p-4 mt-8 max-w-xl mx-auto">
-      <h2 className="text-xl font-semibold mb-2">Suggestion Component</h2>
+      <h2 className="text-xl font-semibold mb-2">Let chatGPT suggest a prompt</h2>
       <label htmlFor="theme-input" className="block font-medium mb-1">
         Enter a theme:
       </label>
