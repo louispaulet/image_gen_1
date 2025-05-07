@@ -80,65 +80,103 @@ function Suggestion({ apiKey }) {
           Prompt copied to clipboard!
         </div>
       )}
-      <div className="border border-gray-300 rounded p-6 mt-8 max-w-xl mx-auto shadow-md">
-        <h2 className="text-2xl font-semibold mb-4">Let ChatGPT suggest a prompt</h2>
-        <label htmlFor="theme-input" className="block font-medium mb-2">
-          Enter a theme:
-        </label>
-        <input
-          id="theme-input"
-          type="text"
-          value={theme}
-          onChange={(e) => setTheme(e.target.value)}
-          placeholder="Enter theme here"
-          className="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          aria-describedby="themeHelp"
-        />
-        {errorMessage && (
-          <p id="themeHelp" className="text-red-600 mb-4" role="alert">
-            {errorMessage}
-          </p>
-        )}
-        <div className="flex space-x-4 mb-4 items-center">
-          <button
-            onClick={generatePrompt}
-            disabled={loading}
-            className="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            aria-disabled={loading}
-            aria-busy={loading}
-          >
-            {loading ? 'Generating...' : 'Generate Prompt'}
-          </button>
-          <button
-            onClick={clearFields}
-            disabled={loading}
-            className="bg-red-600 text-white px-5 py-2 rounded hover:bg-red-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-red-400"
-            title="Clear input and output"
-            aria-disabled={loading}
-          >
-            Clear Section
-          </button>
-          <button
-            onClick={copyToClipboard}
-            disabled={!generatedPrompt}
-            className="bg-green-600 text-white p-3 rounded hover:bg-green-700 disabled:opacity-50 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-green-400"
-            title="Copy prompt to clipboard"
-            aria-disabled={!generatedPrompt}
-          >
-            <HiOutlineClipboardCopy className="h-6 w-6" aria-hidden="true" />
-            <span className="sr-only">Copy prompt to clipboard</span>
-          </button>
-        </div>
-        {generatedPrompt && (
-          <div
-            className="mt-4 p-4 border border-gray-400 rounded bg-gray-50 whitespace-pre-wrap select-all cursor-text"
-            tabIndex={0}
-            aria-label="Generated prompt"
-          >
-            {generatedPrompt}
+      <>
+        <style>
+          {`
+            @keyframes rainbow-border {
+              0% {
+                border-color: red;
+              }
+              14% {
+                border-color: orange;
+              }
+              28% {
+                border-color: yellow;
+              }
+              42% {
+                border-color: green;
+              }
+              57% {
+                border-color: blue;
+              }
+              71% {
+                border-color: indigo;
+              }
+              85% {
+                border-color: violet;
+              }
+              100% {
+                border-color: red;
+              }
+            }
+            .rainbow-border {
+              border-width: 4px;
+              border-style: solid;
+              border-radius: 0.5rem;
+              animation: rainbow-border 27s linear infinite;
+            }
+          `}
+        </style>
+        <div className="rainbow-border p-6 mt-8 max-w-xl mx-auto shadow-md">
+          <h2 className="text-2xl font-semibold mb-4">Let ChatGPT suggest a prompt</h2>
+          <label htmlFor="theme-input" className="block font-medium mb-2">
+            Enter a theme:
+          </label>
+          <input
+            id="theme-input"
+            type="text"
+            value={theme}
+            onChange={(e) => setTheme(e.target.value)}
+            placeholder="Enter theme here"
+            className="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-describedby="themeHelp"
+          />
+          {errorMessage && (
+            <p id="themeHelp" className="text-red-600 mb-4" role="alert">
+              {errorMessage}
+            </p>
+          )}
+          <div className="flex space-x-4 mb-4 items-center">
+            <button
+              onClick={generatePrompt}
+              disabled={loading}
+              className="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              aria-disabled={loading}
+              aria-busy={loading}
+            >
+              {loading ? 'Generating...' : 'Generate Prompt'}
+            </button>
+            <button
+              onClick={clearFields}
+              disabled={loading}
+              className="bg-red-600 text-white px-5 py-2 rounded hover:bg-red-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-red-400"
+              title="Clear input and output"
+              aria-disabled={loading}
+            >
+              Clear Section
+            </button>
+            <button
+              onClick={copyToClipboard}
+              disabled={!generatedPrompt}
+              className="bg-green-600 text-white p-3 rounded hover:bg-green-700 disabled:opacity-50 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-green-400"
+              title="Copy prompt to clipboard"
+              aria-disabled={!generatedPrompt}
+            >
+              <HiOutlineClipboardCopy className="h-6 w-6" aria-hidden="true" />
+              <span className="sr-only">Copy prompt to clipboard</span>
+            </button>
           </div>
-        )}
-      </div>
+          {generatedPrompt && (
+            <div
+              className="mt-4 p-4 border border-gray-400 rounded bg-gray-50 whitespace-pre-wrap select-all cursor-text"
+              tabIndex={0}
+              aria-label="Generated prompt"
+            >
+              {generatedPrompt}
+            </div>
+          )}
+        </div>
+      </>
     </>
   );
 }
