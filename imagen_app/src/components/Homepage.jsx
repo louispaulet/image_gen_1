@@ -212,18 +212,6 @@ function HomePage() {
         />
       </div>
 
-      <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
-        <PresetControls
-          presetName={presetName}
-          setPresetName={setPresetName}
-          savePreset={savePreset}
-          loadPresetFromFile={loadPresetFromFile}
-          loadingPresets={loadingPresets}
-          availablePresets={availablePresets}
-          loadPresetFromList={loadPresetFromList}
-        />
-      </div>
-
       <Suggestion apiKey={apiKey} />
 
       <div className="mt-4 mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
@@ -237,6 +225,18 @@ function HomePage() {
           value={userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
           className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
+        <PresetControls
+          presetName={presetName}
+          setPresetName={setPresetName}
+          savePreset={savePreset}
+          loadPresetFromFile={loadPresetFromFile}
+          loadingPresets={loadingPresets}
+          availablePresets={availablePresets}
+          loadPresetFromList={loadPresetFromList}
         />
       </div>
 
