@@ -182,7 +182,7 @@ function HomePage() {
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg">
-      <h1 className="text-4xl font-bold mb-6 text-center text-gray-900">Image Generation Homepage</h1>
+      <h1 className="text-4xl font-bold mb-6 text-center text-gray-900">ImageGen: AI-Powered Image Generation</h1>
 
       <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
         <ApiKeyInput
@@ -201,7 +201,7 @@ function HomePage() {
 
       <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
         <label className="block font-semibold mb-1 text-gray-700" htmlFor="system-prompt">
-          System Prompt
+          System Prompt (AI Guidance)
         </label>
         <textarea
           id="system-prompt"
@@ -209,6 +209,7 @@ function HomePage() {
           value={systemPrompt}
           onChange={(e) => setSystemPrompt(e.target.value)}
           className="w-full border border-gray-300 rounded-md px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Instructions to guide the AI's image generation"
         />
       </div>
 
