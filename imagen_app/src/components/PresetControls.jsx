@@ -1,4 +1,6 @@
+
 import React from 'react';
+import { FiSave, FiUpload } from 'react-icons/fi';
 
 function PresetControls({
   presetName,
@@ -20,16 +22,18 @@ function PresetControls({
       />
       <button
         onClick={savePreset}
-        className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white font-semibold px-5 py-3 rounded-md shadow-md hover:from-yellow-500 hover:to-yellow-700 focus:outline-none focus:ring-4 focus:ring-yellow-300 transition"
+        className="bg-yellow-500 text-white px-5 py-2 rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 disabled:opacity-50 transition"
         type="button"
+        aria-label="Save Preset"
       >
-        Save Preset
+        <FiSave size={20} />
       </button>
       <label
         htmlFor="load-preset-file"
-        className="bg-gradient-to-r from-blue-600 to-blue-800 text-white font-semibold px-5 py-3 rounded-md shadow-md cursor-pointer hover:from-blue-700 hover:to-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
+        className="bg-blue-600 text-white px-5 py-2 rounded cursor-pointer hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+        aria-label="Load Preset File"
       >
-        Load Preset File
+        <FiUpload size={20} />
       </label>
       <input
         id="load-preset-file"
@@ -41,22 +45,22 @@ function PresetControls({
       {loadingPresets ? (
         <div className="text-gray-500 italic">Loading presets...</div>
       ) : (
-        <select
-          onChange={(e) => {
-            if (e.target.value) loadPresetFromList(e.target.value);
-          }}
-          defaultValue=""
-          className="border border-gray-300 rounded-md px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-        >
-          <option value="" disabled>
-            Load Preset from List
+      <select
+        onChange={(e) => {
+          if (e.target.value) loadPresetFromList(e.target.value);
+        }}
+        defaultValue=""
+        className="border border-gray-300 rounded px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+      >
+        <option value="" disabled>
+          Load Preset from List
+        </option>
+        {availablePresets.map((presetFile) => (
+          <option key={presetFile} value={presetFile}>
+            {presetFile.replace('.json', '')}
           </option>
-          {availablePresets.map((presetFile) => (
-            <option key={presetFile} value={presetFile}>
-              {presetFile.replace('.json', '')}
-            </option>
-          ))}
-        </select>
+        ))}
+      </select>
       )}
     </div>
   );
