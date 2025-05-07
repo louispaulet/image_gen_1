@@ -181,22 +181,26 @@ function HomePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-6 text-center">Image Generation Homepage</h1>
+    <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg">
+      <h1 className="text-4xl font-bold mb-6 text-center text-gray-900">Image Generation Homepage</h1>
 
-      <ApiKeyInput
-        apiKey={apiKey}
-        setApiKey={setApiKey}
-        apiKeySource={apiKeySource}
-        setApiKeySource={setApiKeySource}
-        setLoading={setLoading}
-        loading={loading}
-      />
+      <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
+        <ApiKeyInput
+          apiKey={apiKey}
+          setApiKey={setApiKey}
+          apiKeySource={apiKeySource}
+          setApiKeySource={setApiKeySource}
+          setLoading={setLoading}
+          loading={loading}
+        />
+      </div>
 
-      <FileUploadArea files={files} setFiles={setFiles} removeFileAtIndex={removeFileAtIndex} />
+      <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
+        <FileUploadArea files={files} setFiles={setFiles} removeFileAtIndex={removeFileAtIndex} />
+      </div>
 
-      <div className="mt-6">
-        <label className="block font-semibold mb-1" htmlFor="system-prompt">
+      <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
+        <label className="block font-semibold mb-1 text-gray-700" htmlFor="system-prompt">
           System Prompt
         </label>
         <textarea
@@ -204,24 +208,14 @@ function HomePage() {
           rows={3}
           value={systemPrompt}
           onChange={(e) => setSystemPrompt(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2 resize-none"
+          className="w-full border border-gray-300 rounded-md px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
-      <PresetControls
-        presetName={presetName}
-        setPresetName={setPresetName}
-        savePreset={savePreset}
-        loadPresetFromFile={loadPresetFromFile}
-        loadingPresets={loadingPresets}
-        availablePresets={availablePresets}
-        loadPresetFromList={loadPresetFromList}
-      />
-
       <Suggestion apiKey={apiKey} />
 
-      <div className="mt-4">
-        <label className="block font-semibold mb-1" htmlFor="user-prompt">
+      <div className="mt-4 mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
+        <label className="block font-semibold mb-1 text-gray-700" htmlFor="user-prompt">
           User Prompt
         </label>
         <input
@@ -230,7 +224,19 @@ function HomePage() {
           placeholder="Describe your image request here..."
           value={userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2"
+          className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
+        <PresetControls
+          presetName={presetName}
+          setPresetName={setPresetName}
+          savePreset={savePreset}
+          loadPresetFromFile={loadPresetFromFile}
+          loadingPresets={loadingPresets}
+          availablePresets={availablePresets}
+          loadPresetFromList={loadPresetFromList}
         />
       </div>
 
@@ -238,7 +244,7 @@ function HomePage() {
         <button
           onClick={generateImage}
           disabled={loading}
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50 w-full"
+          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
           {loading ? 'Generating...' : 'Generate Image'}
         </button>
@@ -246,12 +252,12 @@ function HomePage() {
 
       {resultImage && (
         <div className="mt-8 text-center">
-          <h2 className="text-2xl font-semibold mb-4">Generated Image</h2>
-          <img src={resultImage} alt="Generated" className="mx-auto max-w-full rounded shadow" />
+          <h2 className="text-2xl font-semibold mb-4 text-gray-900">Generated Image</h2>
+          <img src={resultImage} alt="Generated" className="mx-auto max-w-full rounded-lg shadow-lg" />
           <div className="mt-4">
             <button
               onClick={downloadImage}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 shadow-md focus:outline-none focus:ring-2 focus:ring-green-400"
             >
               Download Image
             </button>

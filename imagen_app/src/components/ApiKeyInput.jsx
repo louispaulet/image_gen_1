@@ -4,29 +4,29 @@ import CheckApiKeyButton from './CheckApiKeyButton';
 function ApiKeyInput({ apiKey, setApiKey, apiKeySource, setApiKeySource, setLoading, loading }) {
   return (
     <div className="mb-4">
-      <label className="block font-semibold mb-1">OpenAI API Key Source</label>
-      <div className="flex items-center space-x-4 mb-2">
-        <label className="inline-flex items-center">
+      <label className="block font-semibold mb-2 text-gray-800">OpenAI API Key Source</label>
+      <div className="flex items-center space-x-6 mb-4">
+        <label className="inline-flex items-center space-x-2 cursor-pointer">
           <input
             type="radio"
             name="apiKeySource"
             value="file"
             checked={apiKeySource === 'file'}
             onChange={() => setApiKeySource('file')}
-            className="form-radio"
+            className="form-radio h-5 w-5 text-blue-600"
           />
-          <span className="ml-2">Load from text file</span>
+          <span className="text-gray-700">Load from text file</span>
         </label>
-        <label className="inline-flex items-center">
+        <label className="inline-flex items-center space-x-2 cursor-pointer">
           <input
             type="radio"
             name="apiKeySource"
             value="manual"
             checked={apiKeySource === 'manual'}
             onChange={() => setApiKeySource('manual')}
-            className="form-radio"
+            className="form-radio h-5 w-5 text-blue-600"
           />
-          <span className="ml-2">Enter manually</span>
+          <span className="text-gray-700">Enter manually</span>
         </label>
         <CheckApiKeyButton apiKey={apiKey} setLoading={setLoading} loading={loading} />
       </div>
@@ -37,7 +37,7 @@ function ApiKeyInput({ apiKey, setApiKey, apiKeySource, setApiKeySource, setLoad
           placeholder="sk-..."
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2"
+          className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       )}
       {apiKeySource === 'file' && (
@@ -46,7 +46,7 @@ function ApiKeyInput({ apiKey, setApiKey, apiKeySource, setApiKeySource, setLoad
           type="text"
           value={apiKey}
           readOnly
-          className="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100"
+          className="w-full border border-gray-300 rounded-md px-4 py-2 bg-gray-100"
         />
       )}
     </div>
