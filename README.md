@@ -1,47 +1,57 @@
-# Image Generation App
+# ImageGen: AI-Powered Image Generation & Editing Platform 🚀
 
 ![Homepage Screenshot](imagen_app/public/homepage_screenshot.png)
 
-Welcome to our Image Generation App! This project uses OpenAI’s **`gpt-image-1`**, the most advanced and natively multimodal model for image creation and editing.
+---
 
-## ✨ Powered by GPT-Image-1
+## Overview
 
-`gpt-image-1` is OpenAI’s state-of-the-art model that combines the power of image and text understanding. It supports:
+ImageGen is a cutting-edge web application that harnesses the power of OpenAI's advanced AI models to generate and edit images based on user prompts and reference images. Designed for creators, designers, and AI enthusiasts, ImageGen delivers a seamless and intuitive experience for producing unique, high-quality visuals with ease.
 
-- 🎨 **High-Fidelity Image Generation**  
-  Generate detailed, realistic, or artistic images from natural language prompts.
+---
 
-- 🖌️ **Image Editing**  
-  Modify existing images with textual instructions—add, remove, or change visual elements precisely.
+## Core Features ✨
 
-- 🧠 **Multimodal Understanding**  
-  Native support for both images and text, enabling context-aware generation and smarter edits.
+| Feature                      | Description                                                                                      |
+|------------------------------|--------------------------------------------------------------------------------------------------|
+| 🖼️ AI-Powered Image Generation | Generate images from detailed textual prompts using OpenAI's state-of-the-art image models.      |
+| 🖌️ Image Editing with References | Upload reference images to guide AI in editing and enhancing visuals while preserving key elements. |
+| 💾 Prompt Presets             | Save and load custom prompt presets to streamline your creative workflow and reuse configurations. |
+| 💡 Creative Prompt Suggestions | AI-generated prompt ideas based on themes to inspire and enhance your image requests.            |
+| 🔑 API Key Management         | Securely manage your OpenAI API key via file loading or manual input for seamless integration.    |
+| 📥 Downloadable Results       | Download generated images in PNG format for use in projects or sharing.                           |
 
-- 🖼️ **Reference-Guided Generation**  
-  Upload sample images to maintain visual consistency in characters, styles, or layouts.
+---
 
-- 🪄 **Transparent Background Support**  
-  Useful for assets, icons, UI design, and compositing tasks.
+## Technology Stack ⚙️
 
-- ⚡ **Fast and Scalable**  
-  Optimized for production use in content creation, ideation, and design workflows.
+| Technology       | Purpose                                                                                   |
+|------------------|-------------------------------------------------------------------------------------------|
+| ⚛️ React          | Dynamic, component-based user interface development.                                      |
+| 🎨 Tailwind CSS   | Utility-first styling framework for responsive and modern design.                         |
+| 🤖 OpenAI SDK     | Direct interaction with OpenAI's image generation and chat completion APIs from the browser. |
+| 💻 JavaScript (ES6+) | Modern scripting and asynchronous API handling.                                          |
 
-## 🚀 Getting Started
+---
 
-To generate or edit images:
+## Getting Started 🚀
 
-1. Write a prompt describing what you want.
-2. (Optional) Upload reference images or visuals to modify.
-3. Let `gpt-image-1` do the magic.
+To generate or edit images with ImageGen:
 
-Example prompt:
+1. Enter or load your OpenAI API key securely.
+2. (Optional) Upload one or multiple reference images to guide image editing.
+3. Compose your system and user prompts to customize image generation.
+4. Generate images and download your results instantly.
+
+**Example prompt:**
+
+```
+A futuristic city skyline at sunset, in the style of Blade Runner.
 ```
 
-A futuristic city skyline at sunset, in the style of Blade Runner.
+---
 
-````
-
-## 📁 Project Structure
+## Project Structure 📁
 
 ```bash
 imagen_app/
@@ -50,16 +60,20 @@ imagen_app/
 ├── src/
 │   └── ...
 ├── README.md
-````
+```
 
-## 📂 Examples
+---
 
-- [Hot Sauce Examples](hot_sauce_examples/README.md): Uses the default hot sauce preset to generate images of hot sauce bottles starting from a default packshot image.
-- [Object to 3D Examples](object_to_3d_examples/README.md): Uses the default object to 3D preset to convert objects into 3D renders.
+## Examples 📂
 
-## 📄 License
+- [Hot Sauce Examples](hot_sauce_examples/README.md): Generate images of hot sauce bottles starting from a default packshot image using the hot sauce preset.
+- [Object to 3D Examples](object_to_3d_examples/README.md): Convert objects into 3D renders using the object to 3D preset.
 
-MIT License
+---
+
+## License 📄
+
+This project is licensed under the MIT License.
 
 ---
 

@@ -6,8 +6,8 @@ const About = () => {
       <h1 className="text-4xl font-bold mb-8 text-center">About ImageGen</h1>
 
       <p className="text-lg leading-relaxed mb-6">
-        ImageGen is a sophisticated web application that leverages the power of OpenAI's cutting-edge artificial intelligence models to generate and edit images based on user prompts and reference images.
-        It is designed to empower creators, designers, and enthusiasts to effortlessly produce unique and high-quality visuals.
+        ImageGen is a cutting-edge web application that harnesses the power of OpenAI's advanced AI models to generate and edit images based on user prompts and reference images.
+        Designed for creators, designers, and AI enthusiasts, ImageGen delivers a seamless and intuitive experience for producing unique, high-quality visuals with ease.
       </p>
 
       <h2 className="text-2xl font-semibold mb-4">Core Features 🚀</h2>
