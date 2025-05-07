@@ -48,7 +48,7 @@ function CheckApiKeyButton({ apiKey, setLoading, loading }) {
       <button
         onClick={checkApiKey}
         disabled={loading}
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50 flex items-center"
+        className="bg-green-600 text-white px-4 py-2 rounded-md shadow hover:bg-green-700 disabled:opacity-50 flex items-center focus:outline-none focus:ring-2 focus:ring-green-400"
       >
         {loading ? 'Checking...' : 'Check API Key'}
       </button>
@@ -63,7 +63,7 @@ function CheckApiKeyButton({ apiKey, setLoading, loading }) {
         </span>
       )}
       {showPopin && (
-        <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded opacity-90 animate-fadeOut">
+        <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-md opacity-90 animate-fadeOut shadow-lg">
           {message}
         </div>
       )}
