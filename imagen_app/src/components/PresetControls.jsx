@@ -25,6 +25,7 @@ function PresetControls({
         className="bg-yellow-500 text-white px-5 py-2 rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 disabled:opacity-50 transition"
         type="button"
         aria-label="Save Preset"
+        title="Save Preset"
       >
         <FiSave size={20} />
       </button>
@@ -32,6 +33,7 @@ function PresetControls({
         htmlFor="load-preset-file"
         className="bg-blue-600 text-white px-5 py-2 rounded cursor-pointer hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
         aria-label="Load Preset File"
+        title="Load Preset File"
       >
         <FiUpload size={20} />
       </label>
