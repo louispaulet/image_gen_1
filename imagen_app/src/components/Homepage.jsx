@@ -183,6 +183,9 @@ function HomePage() {
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg">
       <h1 className="text-4xl font-bold mb-6 text-center text-gray-900">ImageGen: AI-Powered Image Generation</h1>
+      <p className="text-left text-gray-700 mb-6 max-w-3xl mx-auto italic bg-blue-50 border border-blue-200 rounded-md p-4">
+        <span className="not-italic">💡Tip: </span> GPT Image 1 can help you create seamless textures and images, ideal for enhancing your creative projects and design workflows. For more inspiration, check out the <a href="#/image-tile" className="text-blue-600 hover:underline font-semibold">Image Tiler</a> interface.
+      </p>
 
       <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
         <ApiKeyInput

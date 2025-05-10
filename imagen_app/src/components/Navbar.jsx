@@ -29,6 +29,15 @@ const Navbar = () => {
               >
                 About
               </NavLink>
+              <NavLink
+                to="/image-tile"
+                className={({ isActive }) =>
+                  (isActive ? 'bg-gray-900 ' : '') +
+                  'hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium'
+                }
+              >
+                Image Tiler
+              </NavLink>
             </div>
           </div>
           <div className="md:hidden">
@@ -81,6 +90,15 @@ const Navbar = () => {
             }
           >
             About
+          </NavLink>
+          <NavLink
+            to="/image-tile"
+            className={({ isActive }) =>
+              (isActive ? 'bg-gray-900 ' : '') +
+              'block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700'
+            }
+          >
+            Image Tiler
           </NavLink>
         </div>
       </div>
