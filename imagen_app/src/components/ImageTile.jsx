@@ -57,17 +57,28 @@ export default function ImageTile() {
   }
 
   return (
-    <div className="p-4 border rounded-md max-w-4xl mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Image Tiler</h2>
-      <p className="mb-4">
+    <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold mb-4 text-gray-900">Image Tiler</h2>
+      <p className="mb-6 text-gray-700">
         Upload an image, choose the number of tiles (n), and see the image repeated in an n x n grid.
         You can download the resulting tiled image.
       </p>
-      <div className="mb-4">
-        <input type="file" accept="image/*" onChange={handleImageUpload} />
+      <div className="mb-6">
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          className="block w-full text-sm text-gray-500
+            file:mr-4 file:py-2 file:px-4
+            file:rounded file:border-0
+            file:text-sm file:font-semibold
+            file:bg-blue-50 file:text-blue-700
+            hover:file:bg-blue-100
+          "
+        />
       </div>
-      <div className="mb-4">
-        <label htmlFor="tileCount" className="mr-2">Number of tiles (n):</label>
+      <div className="mb-6 flex items-center">
+        <label htmlFor="tileCount" className="mr-4 text-gray-700 font-medium">Number of tiles (n):</label>
         <input
           id="tileCount"
           type="number"
@@ -75,12 +86,12 @@ export default function ImageTile() {
           max="20"
           value={tileCount}
           onChange={(e) => setTileCount(e.target.value)}
-          className="border rounded px-2 py-1 w-16"
+          className="border border-gray-300 rounded-md px-3 py-2 w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      {error && <p className="text-red-600 mb-4">{error}</p>}
+      {error && <p className="text-red-600 mb-6">{error}</p>}
       {imageSrc && (
-        <div className="mb-4 overflow-auto border p-2">
+        <div className="mb-6 overflow-auto border border-gray-300 rounded-md p-3 shadow-inner">
           <canvas ref={canvasRef} style={{ maxWidth: '100%', height: 'auto' }} />
           <img ref={imageRef} src={imageSrc} alt="source" style={{ display: 'none' }} />
         </div>
@@ -88,7 +99,7 @@ export default function ImageTile() {
       {imageSrc && (
         <button
           onClick={handleDownload}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
           Download Tiled Image
         </button>
