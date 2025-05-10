@@ -183,6 +183,9 @@ function HomePage() {
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg">
       <h1 className="text-4xl font-bold mb-6 text-center text-gray-900">ImageGen: AI-Powered Image Generation</h1>
+      <p className="text-center text-gray-700 mb-6">
+        ChatGPT Image Generator is capable of generating seamless textures and images, perfect for creative projects and design workflows. Explore more in the <a href="#/image-tile" className="text-blue-600 hover:underline">Image Tiler</a> interface.
+      </p>
 
       <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
         <ApiKeyInput
