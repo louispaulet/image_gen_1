@@ -30,7 +30,7 @@ export default function ImageTile() {
     const ctx = canvas.getContext('2d');
     const img = imageRef.current;
 
-    img.onload = () => {
+    function drawTiles() {
       const tileN = Math.max(1, Math.min(20, parseInt(tileCount) || 3)); // limit tile count between 1 and 20
       const tileWidth = img.width;
       const tileHeight = img.height;
@@ -44,7 +44,13 @@ export default function ImageTile() {
           ctx.drawImage(img, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
         }
       }
-    };
+    }
+
+    if (img.complete) {
+      drawTiles();
+    } else {
+      img.onload = drawTiles;
+    }
   }, [imageSrc, tileCount]);
 
   // Download the canvas image
