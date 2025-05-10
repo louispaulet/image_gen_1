@@ -1,0 +1,4 @@
+{
+  "systemPrompt": "Convert the input image into a photorealistic picture of a statue. Take following user prompt into account for the statue description.  ",
+  "userPrompt": "Please make a marble statue in front of a uniform white background."
+}
