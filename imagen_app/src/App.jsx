@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import DummyHomepage from './components/Homepage';
 import About from './components/About';
+import ImageTilePage from './components/ImageTilePage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<DummyHomepage />} />
           <Route path="/about" element={<About />} />
+          <Route path="/image-tile" element={<ImageTilePage />} />
         </Routes>
       </main>
       <Footer />
