@@ -113,7 +113,7 @@ function Suggestion({ apiKey }) {
               border-width: 4px;
               border-style: solid;
               border-radius: 0.5rem;
-              animation: rainbow-border 27s linear infinite;
+              animation: rainbow-border 90s linear infinite;
             }
           `}
         </style>
