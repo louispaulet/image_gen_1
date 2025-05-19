@@ -90,7 +90,7 @@ const About = () => {
         <p>📥 View generated images instantly and download them for further use.</p>
       </div>
 
-      <h2 className="text-2xl font-semibold mb-4">About the Developer</h2>
+      <h2 className="text-2xl font-semibold mb-4">About This Project</h2>
       <p className="text-lg leading-relaxed">
         This project was developed to showcase the capabilities of AI-driven image generation and to provide a practical tool for creative professionals and hobbyists alike.
         It demonstrates seamless integration of AI APIs with modern frontend technologies to deliver a powerful yet accessible user experience.

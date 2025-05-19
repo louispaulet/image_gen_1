@@ -20,23 +20,23 @@ function ApiKeyInput({ apiKey, setApiKey, apiKeySource, setApiKeySource, setLoad
           <input
             type="radio"
             name="apiKeySource"
-            value="file"
-            checked={apiKeySource === 'file'}
-            onChange={() => setApiKeySource('file')}
-            className="form-radio h-5 w-5 text-blue-600"
-          />
-          <span className="text-gray-700">Load from text file</span>
-        </label>
-        <label className="inline-flex items-center space-x-2 cursor-pointer">
-          <input
-            type="radio"
-            name="apiKeySource"
             value="manual"
             checked={apiKeySource === 'manual'}
             onChange={() => setApiKeySource('manual')}
             className="form-radio h-5 w-5 text-blue-600"
           />
           <span className="text-gray-700">Enter manually</span>
+        </label>
+        <label className="inline-flex items-center space-x-2 cursor-pointer">
+          <input
+            type="radio"
+            name="apiKeySource"
+            value="file"
+            checked={apiKeySource === 'file'}
+            onChange={() => setApiKeySource('file')}
+            className="form-radio h-5 w-5 text-blue-600"
+          />
+          <span className="text-gray-700">Load from text file</span>
         </label>
         <CheckApiKeyButton apiKey={apiKey} setLoading={setLoading} loading={loading} />
       </div>
