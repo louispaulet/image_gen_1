@@ -41,7 +41,7 @@ function HomePage() {
 
   React.useEffect(() => {
     setLoadingPresets(true);
-    fetch('/presets/presets.json')
+    fetch('/image_gen_1/presets/presets.json')
       .then((res) => {
         if (!res.ok) throw new Error('Failed to load presets list');
         return res.json();
@@ -103,7 +103,7 @@ function HomePage() {
   };
 
   const loadPresetFromList = (filename) => {
-    fetch('/presets/' + filename)
+    fetch('/image_gen_1/presets/' + filename)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to load preset file');
         return res.json();
