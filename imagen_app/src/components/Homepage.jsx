@@ -8,7 +8,7 @@ import Suggestion from './Suggestion';
 
 function HomePage() {
   const [apiKey, setApiKey] = useState('');
-  const [apiKeySource, setApiKeySource] = useState('file'); // 'file' or 'manual'
+  const [apiKeySource, setApiKeySource] = useState('manual'); // 'file' or 'manual'
   const [files, setFiles] = useState([]);
   const [systemPrompt, setSystemPrompt] = useState(
     'Generate a portrait orientation image. Use the reference image as a packshot reference, and update it with the user request below.'
@@ -24,7 +24,7 @@ function HomePage() {
 
   React.useEffect(() => {
     if (apiKeySource === 'file') {
-      fetch('/key.txt')
+      fetch('/image_gen_1/key.txt')
         .then((res) => {
           if (!res.ok) throw new Error('Failed to load key.txt');
           return res.text();
