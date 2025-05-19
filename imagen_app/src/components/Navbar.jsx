@@ -21,15 +21,6 @@ const Navbar = () => {
                 Home
               </NavLink>
               <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  (isActive ? 'bg-gray-900 ' : '') +
-                  'hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium'
-                }
-              >
-                About
-              </NavLink>
-              <NavLink
                 to="/image-tile"
                 className={({ isActive }) =>
                   (isActive ? 'bg-gray-900 ' : '') +
@@ -37,6 +28,15 @@ const Navbar = () => {
                 }
               >
                 Image Tiler
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  (isActive ? 'bg-gray-900 ' : '') +
+                  'hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium'
+                }
+              >
+                About
               </NavLink>
             </div>
           </div>
@@ -83,15 +83,6 @@ const Navbar = () => {
             Home
           </NavLink>
           <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              (isActive ? 'bg-gray-900 ' : '') +
-              'block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700'
-            }
-          >
-            About
-          </NavLink>
-          <NavLink
             to="/image-tile"
             className={({ isActive }) =>
               (isActive ? 'bg-gray-900 ' : '') +
@@ -99,6 +90,15 @@ const Navbar = () => {
             }
           >
             Image Tiler
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              (isActive ? 'bg-gray-900 ' : '') +
+              'block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700'
+            }
+          >
+            About
           </NavLink>
         </div>
       </div>
